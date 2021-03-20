@@ -1,3 +1,16 @@
-PODFILE CHECKSUM: 0e04eb4565cad234dd7cfaebcdbce06176cb9319
+PODS:
+  - HDebugTool (0.1.0)
+
+DEPENDENCIES:
+  - HDebugTool (from `./`)
+
+EXTERNAL SOURCES:
+  HDebugTool:
+    :path: "./"
+
+SPEC CHECKSUMS:
+  HDebugTool: ca573bffdd3f67702394c4fdc5755d7e9326ed0c
+
+PODFILE CHECKSUM: fb263efa25322a276faebefbf35592545f47724f
 
 COCOAPODS: 1.10.1

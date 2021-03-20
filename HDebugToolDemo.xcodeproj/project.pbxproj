@@ -107,6 +107,7 @@
 				52BFFF4027619B760016D3AF /* Sources */,
 				52BFFF4127619B760016D3AF /* Frameworks */,
 				52BFFF4227619B760016D3AF /* Resources */,
+				247664B6EA60C31773DAAE9B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -163,6 +164,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		247664B6EA60C31773DAAE9B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HDebugToolDemo/Pods-HDebugToolDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HDebugToolDemo/Pods-HDebugToolDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HDebugToolDemo/Pods-HDebugToolDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3A2C1F186BB315C051B22087 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

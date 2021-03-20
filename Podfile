@@ -6,5 +6,6 @@ target 'HDebugToolDemo' do
   use_frameworks!
 
   # Pods for HDebugToolDemo
+  pod 'HDebugTool', :path => './'
 
 end
