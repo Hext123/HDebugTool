@@ -8,6 +8,9 @@
 import Foundation
 
 class DebugBall: UIView {
+    
+    let evnNameLbl = UILabel()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupView()
@@ -18,6 +21,10 @@ class DebugBall: UIView {
     }
     
     func setupView() {
+        evnNameLbl.frame = self.bounds
+        evnNameLbl.textAlignment = .center
+        self.addSubview(evnNameLbl)
+        
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         self.addGestureRecognizer(panGesture)
@@ -29,8 +36,6 @@ class DebugBall: UIView {
         guard let window = window else { return }
         
         let point = sender.location(in: nil)
-        print(point)
-        print(sender.state.rawValue)
         
         switch sender.state {
         case .possible, .began, .changed:
@@ -59,9 +64,8 @@ class DebugBall: UIView {
             while rootViewController?.presentedViewController != nil {
                 rootViewController = rootViewController?.presentedViewController
             }
-            let vc = EnvSwitchVC(nibName: "EnvSwitchVC", bundle: Bundle(for: HDebugTool.self))
-            let navC = UINavigationController(rootViewController: vc)
-            rootViewController?.present(navC, animated: true, completion: nil)
+            let navC = UIStoryboard.init(name: "HDebugTool", bundle: Bundle(for: HDebugTool.self)).instantiateInitialViewController();
+            rootViewController?.present(navC!, animated: true, completion: nil)
         }
     }
     
