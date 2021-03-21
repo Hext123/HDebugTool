@@ -8,7 +8,7 @@
 import Foundation
 
 @objcMembers
-public class HDebugTool: NSObject {
+open class HDebugTool: NSObject {
     
     /**
      传入环境字典, 格式如:

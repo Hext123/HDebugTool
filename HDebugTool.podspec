@@ -31,7 +31,8 @@ TODO: Add long description of the pod here.
   s.swift_version = '4.0'
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'HDebugTool/Classes/**/*'
+  s.source_files = 'HDebugTool/Classes/**/*.*'
+  s.resources = 'HDebugTool/Assets/**/*.*'
   
   # s.resource_bundles = {
   #   'HDebugTool' => ['HDebugTool/Assets/*.png']
