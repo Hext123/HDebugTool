@@ -25,11 +25,14 @@ class HDebugToolVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        switch indexPath.row {
-        case 1:
+        switch indexPath {
+        case IndexPath(row: 0, section: 1):
+            self.navigationController?.pushViewController(HDebugFileManagerVC(), animated: true)
+            break
+        case IndexPath(row: 0, section: 2):
             self.clearUserDefaults()
             break
-        case 2:
+        case IndexPath(row: 1, section: 2):
             self.clearHomeDirectory()
             break
         default:
