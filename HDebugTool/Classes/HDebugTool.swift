@@ -11,7 +11,8 @@ import Foundation
 open class HDebugTool: NSObject {
     
     /**
-     传入环境字典, 格式如:
+     传入环境数据字典, 格式如: [String : [String : String]]
+     ```swift
      [
          "dev":[
              "api": "http://baidu.com/api",
@@ -24,6 +25,7 @@ open class HDebugTool: NSObject {
              "mqtt": "http://sit.com/mqtt",
          ]
      ]
+     ```
      */
     public static var envDatas = [
         "dev":[
@@ -37,15 +39,17 @@ open class HDebugTool: NSObject {
             "mqtt": "http://sit.com/mqtt",
         ]
     ]
+    /// 供测试选择的环境名称列表, 需要是 envDatas 中的 key
     public static var envNames = ["dev","sit"]
+    /// 当前环境, 需要是 envNames 中的一个
     public static var currentEnv = "dev"
+    /// 环境改变时回调
     public static var envChanged = {}
     
     static var debugBall = DebugBall(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
     
     public static func show() {
-        guard let window = UIApplication.shared.delegate?.window else { return }
-        guard let window = window else { return }
+        guard let window = HDebugTool.getWindow() else { return }
         debugBall.center.y = window.center.y;
         debugBall.backgroundColor = .orange.withAlphaComponent(0.4)
         debugBall.layer.cornerRadius = 30
@@ -56,9 +60,8 @@ open class HDebugTool: NSObject {
     }
     
     static func moveToTop() {
-        guard let window = UIApplication.shared.delegate?.window else { return }
-        guard let window = window else { return }
-
+        guard let window = HDebugTool.getWindow() else { return }
+        
         debugBall.evnNameLbl.text = self.currentEnv
         
         if window.subviews.last != debugBall {
@@ -66,4 +69,20 @@ open class HDebugTool: NSObject {
             window.addSubview(debugBall)
         }
     }
+    
+    static func getWindow() -> UIWindow? {
+        guard let window = UIApplication.shared.delegate?.window else { return nil }
+        return window
+    }
+    
+    static func getTopVC() -> UIViewController? {
+        guard let window = HDebugTool.getWindow() else { return nil }
+        
+        var topVC = window.rootViewController
+        while topVC?.presentedViewController != nil {
+            topVC = topVC?.presentedViewController
+        }
+        return topVC
+    }
+    
 }

@@ -32,8 +32,7 @@ class DebugBall: UIView {
     }
     
     @objc func handlePanGesture(_ sender: UIPanGestureRecognizer) {
-        guard let window = UIApplication.shared.delegate?.window else { return }
-        guard let window = window else { return }
+        guard let window = HDebugTool.getWindow() else { return }
         
         let point = sender.location(in: nil)
         
@@ -56,14 +55,8 @@ class DebugBall: UIView {
     }
     
     @objc func handleTapGesture(_ sender: UITapGestureRecognizer) {
-        guard let window = UIApplication.shared.delegate?.window else { return }
-        guard let window = window else { return }
-        
         if sender.state == .ended {
-            var rootViewController = window.rootViewController
-            while rootViewController?.presentedViewController != nil {
-                rootViewController = rootViewController?.presentedViewController
-            }
+            let rootViewController = HDebugTool.getTopVC()
             let navC = UIStoryboard.init(name: "HDebugTool", bundle: Bundle(for: HDebugTool.self)).instantiateInitialViewController();
             rootViewController?.present(navC!, animated: true, completion: nil)
         }

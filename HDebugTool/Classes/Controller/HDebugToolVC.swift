@@ -30,10 +30,20 @@ class HDebugToolVC: UITableViewController {
             self.navigationController?.pushViewController(HDebugFileManagerVC(), animated: true)
             break
         case IndexPath(row: 0, section: 2):
-            self.clearUserDefaults()
+            let alert = UIAlertController(title: "提示", message: "是否清除UserDefaults? 清除后APP需要重新登录", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "清除", style: .destructive, handler: { action in
+                self.clearUserDefaults()
+            }))
+            HDebugTool.getTopVC()?.present(alert, animated: true, completion: nil)
             break
         case IndexPath(row: 1, section: 2):
-            self.clearHomeDirectory()
+            let alert = UIAlertController(title: "提示", message: "是否清除沙盒文件? 清除后APP几乎等同于全新安装", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "清除", style: .destructive, handler: { action in
+                self.clearHomeDirectory()
+            }))
+            HDebugTool.getTopVC()?.present(alert, animated: true, completion: nil)
             break
         default:
             break
@@ -42,13 +52,22 @@ class HDebugToolVC: UITableViewController {
     
     
     @IBAction func envChanged(_ sender: UISegmentedControl) {
-        let envTitle = sender.titleForSegment(at: sender.selectedSegmentIndex)!
+        guard let envTitle = sender.titleForSegment(at: sender.selectedSegmentIndex) else { return }
+        guard let envData = HDebugTool.envDatas[envTitle] else { return }
         var apiInfos = ""
-        HDebugTool.envDatas[envTitle]!.forEach { (key: String, value: String) in
-            apiInfos = "\(apiInfos)\(key)  \(value)\n"
+        envData.keys.sorted().enumerated().forEach { (index, key) in
+            if index != 0  {
+                apiInfos += "\n"
+            }
+            let value = envData[key]!
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                apiInfos = "\(apiInfos)\(key)\n\(value)"
+            } else {
+                apiInfos = "\(apiInfos)\(key)\t\t\(value)"
+            }
         }
         apiInfoLbl.text = apiInfos
-        self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+        self.tableView.reloadData()
         
         if HDebugTool.currentEnv != envTitle {
             HDebugTool.currentEnv = envTitle
@@ -86,6 +105,14 @@ class HDebugToolVC: UITableViewController {
                 }
             }
         }
+        
+        
+        let alert = UIAlertController(title: "提示", message: "UserDefaults已清空, 建议重启APP", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "重启", style: .destructive, handler: { action in
+            self.exit()
+        }))
+        HDebugTool.getTopVC()?.present(alert, animated: true, completion: nil)
     }
     
     /// 清空沙盒目录
@@ -108,6 +135,29 @@ class HDebugToolVC: UITableViewController {
                 try? FileManager.default.removeItem(atPath: fileAbsolutePath)
             }
         })
+        
+        let alert = UIAlertController(title: "提示", message: "沙盒文件已清空, 建议重启APP", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "重启", style: .destructive, handler: { action in
+            self.exit()
+        }))
+        HDebugTool.getTopVC()?.present(alert, animated: true, completion: nil)
+    }
+    
+    func exit() {
+        if let window = HDebugTool.getWindow() {
+            UIView.animate(withDuration: 0.3) {
+                let center = window.center
+                window.alpha = 0;
+                window.frame = CGRect.zero;
+                window.center = center;
+            } completion: { finished in
+                Darwin.exit(EXIT_SUCCESS)
+            }
+            
+        } else {
+            Darwin.exit(EXIT_SUCCESS)
+        }
     }
     
 }
