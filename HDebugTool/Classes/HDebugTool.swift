@@ -51,7 +51,7 @@ open class HDebugTool: NSObject {
     public static func show() {
         guard let window = HDebugTool.getWindow() else { return }
         debugBall.center.y = window.center.y;
-        debugBall.backgroundColor = .orange.withAlphaComponent(0.4)
+        debugBall.backgroundColor = UIColor.orange.withAlphaComponent(0.4)
         debugBall.layer.cornerRadius = 30
         debugBall.layer.borderColor = UIColor.orange.cgColor
         debugBall.layer.borderWidth = 1
