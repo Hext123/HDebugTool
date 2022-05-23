@@ -76,7 +76,7 @@ class HDebugToolVC: UITableViewController {
     }
     
     /// 清空所有 UserDefaults
-    func clearUserDefaults() {
+    func clearUserDefaults(needAlert: Bool = true) {
         // 清除默认 UserDefaults
         let appDomain = Bundle.main.bundleIdentifier
         UserDefaults.standard.removePersistentDomain(forName: appDomain ?? "")
@@ -106,13 +106,14 @@ class HDebugToolVC: UITableViewController {
             }
         }
         
-        
-        let alert = UIAlertController(title: "提示", message: "UserDefaults已清空, 建议重启APP", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "重启", style: .destructive, handler: { action in
-            self.exit()
-        }))
-        HDebugTool.getTopVC()?.present(alert, animated: true, completion: nil)
+        if needAlert {
+            let alert = UIAlertController(title: "提示", message: "UserDefaults已清空, 建议重启APP", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "重启", style: .destructive, handler: { action in
+                self.exit()
+            }))
+            HDebugTool.getTopVC()?.present(alert, animated: true, completion: nil)
+        }
     }
     
     /// 清空沙盒目录
@@ -125,6 +126,8 @@ class HDebugToolVC: UITableViewController {
         default:
             return
         }
+        // 先清 UserDefaults, 不然待会儿 UserDefaults 又会写回到沙盒
+        self.clearUserDefaults(needAlert: false)
         
         let cachePath = NSHomeDirectory()
         let files = FileManager.default.subpaths(atPath: cachePath)
