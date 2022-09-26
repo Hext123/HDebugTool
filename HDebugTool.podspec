@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'HDebugTool'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of HDebugTool.'
+  s.version          = '1.0.0'
+  s.summary          = '一个用于iOS项目的调试工具, 可以用于切换环境, 清除缓存等等, 帮助测试项目'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  一个用于iOS项目的调试工具, 可以用于切换环境, 清除缓存等等, 帮助测试项目
                        DESC
                        
   s.homepage         = 'https://github.com/Hext123/HDebugTool'
