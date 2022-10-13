@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'HDebugTool'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = '一个用于iOS项目的调试工具, 可以用于切换环境, 清除缓存等等, 帮助测试项目'
 
 # This description is used to generate tags and improve search results.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-  一个用于iOS项目的调试工具, 可以用于切换环境, 清除缓存等等, 帮助测试项目
+  一个用于iOS项目的调试工具, 可以用于切换环境, 清除缓存等等, 帮助测试项目. 1.1.0 版本开始支持添加自定义设置项
                        DESC
                        
   s.homepage         = 'https://github.com/Hext123/HDebugTool'

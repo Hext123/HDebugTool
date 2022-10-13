@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import <HDebugTool/HDebugTool-Swift.h>
+#import "HDebugToolDemo-Swift.h"
 
 @interface AppDelegate ()
 
@@ -35,6 +36,10 @@
     HDebugTool.envChanged = ^{
         NSLog(@"ENV: %@", HDebugTool.currentEnv);
     };
+    
+    // 借助 Swift 类型的帮助类去使用 HDebugTool, 可以使用一些 OC 没有的属性和类型
+    [DebugToolHelper settingItems];
+    
     [HDebugTool show];
     
     return YES;

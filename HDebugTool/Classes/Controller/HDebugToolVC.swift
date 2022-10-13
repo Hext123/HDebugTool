@@ -29,8 +29,68 @@ class HDebugToolVC: UITableViewController {
         self.dismiss(animated: true)
     }
     
+    @objc func valueChangedOfSwitch(_ accSwitch: UISwitch) {
+        let settingItem = HDebugTool.settingItems[accSwitch.tag]
+        if case let .switchItem(_, UDKey, action) = settingItem {
+            UserDefaults.standard.set(accSwitch.isOn, forKey: UDKey)
+            action(accSwitch.isOn)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 3 {
+            return HDebugTool.settingItems.count
+        }
+        return super.tableView(tableView, numberOfRowsInSection: section)
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 3 {
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: "custom_cell")
+            switch HDebugTool.settingItems[indexPath.row] {
+            case let .switchItem(title, UDKey, _):
+                cell.textLabel?.text = title
+                let accSwitch = UISwitch()
+                accSwitch.isOn = UserDefaults.standard.bool(forKey: UDKey)
+                accSwitch.tag = indexPath.row
+                accSwitch.addTarget(self, action: #selector(valueChangedOfSwitch), for: .valueChanged)
+                cell.accessoryView = accSwitch
+            case let .clickItem(title, detail, _):
+                cell.textLabel?.text = title
+                cell.detailTextLabel?.text = detail
+                cell.accessoryType = .disclosureIndicator
+            }
+            return cell
+        }
+        return super.tableView(tableView, cellForRowAt: indexPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 3 {
+            return UITableViewAutomaticDimension
+        }
+        return super.tableView(tableView, heightForRowAt: indexPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
+        if indexPath.section == 3 {
+            return super.tableView(tableView, indentationLevelForRowAt: IndexPath(row: 0, section: 3))
+        }
+        return super.tableView(tableView, indentationLevelForRowAt: indexPath)
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.section == 3 {
+            switch HDebugTool.settingItems[indexPath.row] {
+            case let .clickItem(_, _, action):
+                action()
+            default: break
+            }
+            return
+        }
+        
         switch indexPath {
         case IndexPath(row: 0, section: 1):
             self.navigationController?.pushViewController(HDebugFileManagerVC(), animated: true)

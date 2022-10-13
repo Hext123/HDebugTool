@@ -45,6 +45,9 @@ open class HDebugTool: NSObject {
     public static var currentEnv = "dev"
     /// 环境改变时回调
     public static var envChanged = {}
+    /// 自定义设置项, 可添加自定义项到调试工具里面, 用于快速进行一些操作, 如添加一个退出登录项, 以便于测试时在任何界面快速登录新账号
+    public static var settingItems: [SettingItem] = []
+    
     
     static var debugBall = DebugBall(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
     
@@ -85,4 +88,13 @@ open class HDebugTool: NSObject {
         return topVC
     }
     
+}
+
+public enum SettingItem {
+    /// 可点击项, cell 带有一个右箭头
+    case clickItem(title: String, detail: String, action: () -> Void)
+    /// 带有一个切换开关 (UISwitch) 的 cell,
+    /// 需要提供一个 UserDefaults 的 key, 按 bool 存取值,
+    /// 显示 UISwitch 时会读取这个值, 点击切换时会写入到这个值
+    case switchItem(title: String, UDKey: String, action: (Bool) -> Void)
 }
