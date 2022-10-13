@@ -14,6 +14,8 @@ class HDebugToolVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(close))
+        
         segmentedControl.removeAllSegments()
         
         HDebugTool.envNames.reversed().forEach { name in
@@ -21,6 +23,10 @@ class HDebugToolVC: UITableViewController {
         }
         segmentedControl.selectedSegmentIndex = HDebugTool.envNames.firstIndex(of: HDebugTool.currentEnv) ?? 0
         self.envChanged(segmentedControl)
+    }
+    
+    @objc func close() {
+        self.dismiss(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
