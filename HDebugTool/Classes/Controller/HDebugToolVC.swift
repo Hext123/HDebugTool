@@ -184,7 +184,7 @@ class HDebugToolVC: UITableViewController {
     
     /// 清空沙盒目录
     func clearHomeDirectory() {
-        assert(UIDevice.current.userInterfaceIdiom == .phone || UIDevice.current.userInterfaceIdiom == .pad, "禁止在 iPhone 或 iPad 之外调用此方法, 比如在 Mac 上调用可能会删除整个用户目录 (模拟器除外)")
+        precondition(UIDevice.current.userInterfaceIdiom == .phone || UIDevice.current.userInterfaceIdiom == .pad, "禁止在 iPhone 或 iPad 之外调用此方法, 比如在 Mac 上调用可能会删除整个用户目录 (模拟器除外)")
         // 双重保险判断
         switch UIDevice.current.userInterfaceIdiom {
         case .phone, .pad:
